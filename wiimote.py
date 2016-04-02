@@ -8,48 +8,58 @@ def makeConnection():
   wm = cwiid.Wiimote()
   wm.led = 1
   wm.enable(cwiid.FLAG_MOTIONPLUS)
-  wm.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_MOTIONPLUS
+  wm.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_MOTIONPLUS | cwiid.RPT_ACC
   print "you be connected"
   return wm
 
-def determine(wm):
-  if wm.state['buttons'] & cwiid.BTN_PLUS:
+def determine(wmote):
+  #acceleration data
+  ax = (((mesg[1][cwiid.X])-120)/2)
+  ay = (((mesg[1][cwiid.Y])-120)/2)
+  az = (((mesg[1][cwiid.Z])-120)/2)
+  print "ax " + ax
+  print "ay " + ay
+  print "az " + az
+
+  #button data
+  if wmote.state['buttons'] & cwiid.BTN_PLUS:
     #takeoff
     print "get lifted"
-  if wm.state['buttons'] & cwiid.BTN_MINUS:
+  if wmote.state['buttons'] & cwiid.BTN_MINUS:
     #land
     print "landing"
-  if wm.state['buttons'] & cwiid.BTN_HOME:
+  if wmote.state['buttons'] & cwiid.BTN_HOME:
     #panic and stop
     print "kill everything"
-  if wm.state['buttons'] & cwiid.BTN_B:
+  if wmote.state['buttons'] & cwiid.BTN_B:
     #flip
 	print "barrell roll"
-  if wm.state['buttons'] & cwiid.BTN_UP:
+  if wmote.state['buttons'] & cwiid.BTN_UP:
 	#foward
 	print "movin on forward"
-  if wm.state['buttons'] & cwiid.BTN_DOWN:
+  if wmote.state['buttons'] & cwiid.BTN_DOWN:
 	#back
 	print "back it up"
-  if wm.state['buttons'] & cwiid.BTN_LEFT:
+  if wmote.state['buttons'] & cwiid.BTN_LEFT:
 	#left
 	print "to the left"
-  if wm.state['buttons'] & cwiid.BTN_RIGHT:
+  if wmote.state['buttons'] & cwiid.BTN_RIGHT:
 	#right
 	print "to the right now yall"
-  if wm.state['buttons'] & cwiid.BTN_1:
+  if wmote.state['buttons'] & cwiid.BTN_1:
 	#elevate
 	print "raise it"
-  if wm.state['buttons'] & cwiid.BTN_2:
+  if wmote.state['buttons'] & cwiid.BTN_2:
 	#lower
 	print "drop it low"
+
   time.sleep(0.1)
 
 def main():
-  wmote = makeConnection()
+  wm2 = makeConnection()
   while True:
-    wmote.led = (wmote.state['led'] + 1) % 16
-    determine(wmote)
+    wm.led = (wm.state['led'] + 1) % 16
+    determine(wm2)
 
 if __name__ == "__main__":
   main()
