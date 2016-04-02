@@ -46,10 +46,10 @@ def determine(wm):
   time.sleep(0.1)
 
 def main():
-  wm2 = makeConnection()
+  wmote = makeConnection()
   while True:
-    wm.led = (wm.state['led'] + 1) % 16
-    determine(wm2)
+    wmote.led = (wmote.state['led'] + 1) % 16
+    determine(wmote)
 
 if __name__ == "__main__":
   main()
