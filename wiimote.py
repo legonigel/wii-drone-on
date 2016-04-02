@@ -56,10 +56,10 @@ def determine(wmote):
   time.sleep(0.1)
 
 def main():
-  wm2 = makeConnection()
+  wiimote = makeConnection()
   while True:
-    wm.led = (wm.state['led'] + 1) % 16
-    determine(wm2)
+    wiimote.led = (wiimote.state['led'] + 1) % 16
+    determine(wiimote)
 
 if __name__ == "__main__":
   main()
