@@ -15,7 +15,7 @@ def makeConnection():
 def determine():
   if wm.state['buttons'] & cwiid.BTN_PLUS:
     #takeoff
-    print "taking off"
+    print "get lifted"
   if wm.state['buttons'] & cwiid.BTN_MINUS:
     #land
     print "landing"
@@ -23,26 +23,26 @@ def determine():
     #panic and stop
     print "kill everything"
   if wm.state['buttons'] & cwiid.BTN_B:
-	  #flip
-	  print "barrell roll"
+    #flip
+	print "barrell roll"
   if wm.state['buttons'] & cwiid.BTN_UP:
-	  #foward
-	  print "movin on forward"
+	#foward
+	print "movin on forward"
   if wm.state['buttons'] & cwiid.BTN_DOWN:
-	  #back
-	  print "back it up"
+	#back
+	print "back it up"
   if wm.state['buttons'] & cwiid.BTN_LEFT:
-	  #left
-	  print "to the left"
+	#left
+	print "to the left"
   if wm.state['buttons'] & cwiid.BTN_RIGHT:
-	  #right
-	  print "to the right now yall"
+	#right
+	print "to the right now yall"
   if wm.state['buttons'] & cwiid.BTN_1:
-	  #elevate
-	  print "raise it"
+	#elevate
+	print "raise it"
   if wm.state['buttons'] & cwiid.BTN_2:
-	  #lower
-	  print "drop it low"
+	#lower
+	print "drop it low"
   time.sleep(0.1)
 
 def main():
@@ -53,4 +53,3 @@ def main():
 
 if __name__ == "__main__":
   main()
-
