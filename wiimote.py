@@ -8,20 +8,11 @@ def makeConnection():
   wm = cwiid.Wiimote()
   wm.led = 1
   wm.enable(cwiid.FLAG_MOTIONPLUS)
-  wm.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_MOTIONPLUS | cwiid.RPT_ACC
+  wm.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_MOTIONPLUS
   print "you be connected"
   return wm
 
 def determine(wmote):
-  #acceleration data
-  ax = (((mesg[1][cwiid.X])-120)/2)
-  ay = (((mesg[1][cwiid.Y])-120)/2)
-  az = (((mesg[1][cwiid.Z])-120)/2)
-  print "ax " + ax
-  print "ay " + ay
-  print "az " + az
-
-  #button data
   if wmote.state['buttons'] & cwiid.BTN_PLUS:
     #takeoff
     print "get lifted"
