@@ -37,6 +37,7 @@ def main():
 				command = source.determine()
 				if command:
 					controller.do_command(command)
+			sleep(0.01) #sleep 10 ms
 
 
 	except (KeyboardInterrupt, SystemExit):
