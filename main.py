@@ -7,6 +7,8 @@ from drone_control import DroneController
 from video import Video
 from wiimote import InputWiimote
 from keyboard import InputKeyboard
+from balanceboard import InputBalanceBoard
+from wiimoteAC import InputWiimoteAC
 
 from time import sleep
 import signal
@@ -18,8 +20,10 @@ def main():
 	controller.start()
 
 	input_sources = []
-	#input_sources.append(InputWiimote())
+	input_sources.append(InputWiimote())
 	input_sources.append(InputKeyboard("Keyboard"))
+	input_sources.append(InputBalanceBoard())
+	input_sources.append(InputWiimoteAC())
 
 	for source in input_sources:
 		if hasattr(source, "makeConnection"):
