@@ -6,19 +6,23 @@ from time import sleep
 class InputBalanceBoard(object):
 	def makeConnection(self):
 		print "Press sync on da board yo"
-		wiiboard = cwiid.Wiimote()
-		wiiboard.led = 1
-		wiiboard.rpt_mode = cwiid.RPT_BALANCE | cwiid.RPT_BTN
-		wiiboard.request_status()
-		sleep(1)
-		print wiiboard.state['ext_type']
-		ballance_calibration = wiiboard.get_balance_cal()
-		self.named_cal = {'right_top':ballance_calibration[0],
+		try:
+			wiiboard = cwiid.Wiimote()
+		except RuntimeError:
+			wiiboard = None
+		else:
+			wiiboard.led = 1
+			wiiboard.rpt_mode = cwiid.RPT_BALANCE | cwiid.RPT_BTN
+			wiiboard.request_status()
+			sleep(1)
+			print wiiboard.state['ext_type']
+			ballance_calibration = wiiboard.get_balance_cal()
+			self.named_cal = {'right_top':ballance_calibration[0],
 					 'right_bottom':ballance_calibration[1],
 					 'left_top':ballance_calibration[2],
 					 'left_bottom':ballance_calibration[3]}
-		self.calibrations = ballance_calibration
-		print "you be connected"
+			self.calibrations = ballance_calibration
+			print "you be connected"
 		self.wiiboard = wiiboard
 		return wiiboard
 
@@ -31,7 +35,9 @@ class InputBalanceBoard(object):
 		weight = (calcweight(readings, self.named_cal)/100.0)
 
 		x_bal, y_bal = get_balance(readings, self.named_cal)
-		command = "lr " + str(x_bal) + " fb " + str(y_bal)
+		if (not ( -1 <= x_bal <= 1 )) or (not ( -1 <= y_bal <= 1)):
+			return ""
+		command = "lr " + str(x_bal / 3.0) + " fb " + str(y_bal / 3.0)
 		return command
 
 def get_balance(readings, calibrations):
