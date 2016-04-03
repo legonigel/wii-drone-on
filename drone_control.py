@@ -127,7 +127,9 @@ class DroneController(threading.Thread):
 				print "You really fucked up the command, {} is not a number".format(command_string.split(' ')[1])
 				return False
 
-		if any(s in command_string for s in ['forward','fwrd']):
+		if any(s in command_string for s in ['kill','reset']):
+			self.event_queue.put((self.drone.reset,()))
+		elif any(s in command_string for s in ['forward','fwrd']):
 			#move forward
 			self.add_move(forward = number)
 		elif any(s in command_string for s in ['backward','bckwd','back']):
