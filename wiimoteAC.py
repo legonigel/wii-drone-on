@@ -13,7 +13,10 @@ def makeConnection():
   return wm
 
 def accelerationDir(wm):
-  print((wm.state['acc'][1]-125))
+  #print "x: " + str(float((wm.state['acc'][0]-125))/30)
+  #print "y: " + str(float((wm.state['acc'][1]-125))/30)
+  directions = "LR " + str(float((wm.state['acc'][0]-125))/30) + " FB " + str(float((wm.state['acc'][1]-125))/30)
+  print directions
   time.sleep(0.1)
 
 def main():
