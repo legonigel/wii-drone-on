@@ -47,8 +47,6 @@ class DroneController(threading.Thread):
 				self.drone.hover()
 				sleep(0.001)
 
-			clock.tick(1000)
-
 		print "Shutting down...",
 		drone.reset()
 		drone.halt()
