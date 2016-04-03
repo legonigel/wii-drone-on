@@ -12,7 +12,7 @@ def makeConnection():
   print "you be connected"
   return wm
 
-def accelerationDir(wmote):
+def accelerationDir(wiimote):
   ax = 0
   ay = 0
   az = 0
