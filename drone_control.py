@@ -13,7 +13,7 @@ import sys
 class DroneController(threading.Thread):
 	"""Control class (to control the drone)"""
 
-	state = "waiting" #in_air, landed
+	is_flying = False
 	speed = 0.1
 	event_queue = Queue.Queue()
 
@@ -104,6 +104,25 @@ class DroneController(threading.Thread):
 		command_string is the string to execute
 		such as turn_left, move_forward, possibly followed by a nubmer 0..1
 		"""
+		if any(s in command_string for s in ['kill','reset']):
+			self.event_queue.put((self.drone.reset,()))
+			self.is_flying = False
+		elif any(s in command_string for s in ['halt']):
+			self.event_queue.put((self.drone.halt,()))
+			self.is_flying = False
+		elif any(s in command_string for s in ['takeoff','tkoff']) and not self.is_flying:
+			#takeoff
+			self.event_queue.put((self.drone.takeoff, ()))
+			self.is_flying = True
+		elif any(s in command_string for s in ['land','lnd']):
+			#land
+			self.event_queue.put((self.drone.land, ()))
+			self.is_flying = False
+
+		if not self.is_flying:
+			#cant do stuff when not flying
+			return False
+
 		if len(command_string.split(' ')) == 4 and 'lr' in command_string and 'fb' in command_string:
 			splits = command_string.split(' ')
 			lr = 0
@@ -127,11 +146,8 @@ class DroneController(threading.Thread):
 				print "You really fucked up the command, {} is not a number".format(command_string.split(' ')[1])
 				return False
 
-		if any(s in command_string for s in ['kill','reset']):
-			self.event_queue.put((self.drone.reset,()))
-		elif any(s in command_string for s in ['halt']):
-			self.event_queue.put((self.drone.halt,()))
-		elif any(s in command_string for s in ['forward','fwrd']):
+
+		if any(s in command_string for s in ['forward','fwrd']):
 			#move forward
 			self.add_move(forward = number)
 		elif any(s in command_string for s in ['backward','bckwd','back']):
@@ -154,12 +170,6 @@ class DroneController(threading.Thread):
 		elif any(s in command_string for s in ['right']):
 			#move right
 			self.add_move(right = number)
-		elif any(s in command_string for s in ['takeoff','tkoff']):
-			#takeoff
-			self.event_queue.put((self.drone.takeoff, ()))
-		elif any(s in command_string for s in ['land','lnd']):
-			#land
-			self.event_queue.put((self.drone.land, ()))
 		elif any(s in command_string for s in ['up']):
 			#up
 			self.add_move(up = number)
