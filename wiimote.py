@@ -13,38 +13,40 @@ def makeConnection():
   return wm
 
 def determine(wmote):
+  String command = ""
   if wmote.state['buttons'] & cwiid.BTN_PLUS:
     #takeoff
-    print "get lifted"
+    command = "takeoff"
   if wmote.state['buttons'] & cwiid.BTN_MINUS:
     #land
-    print "landing"
+    command = "land"
   if wmote.state['buttons'] & cwiid.BTN_HOME:
     #panic and stop
-    print "kill everything"
+    command = "kill"
   if wmote.state['buttons'] & cwiid.BTN_B:
     #flip
-	print "barrell roll"
+	command = "flip"
   if wmote.state['buttons'] & cwiid.BTN_UP:
 	#foward
-	print "movin on forward"
+	command = "forward"
   if wmote.state['buttons'] & cwiid.BTN_DOWN:
 	#back
-	print "back it up"
+	command = "backward"
   if wmote.state['buttons'] & cwiid.BTN_LEFT:
 	#left
-	print "to the left"
+	command = "left"
   if wmote.state['buttons'] & cwiid.BTN_RIGHT:
 	#right
-	print "to the right now yall"
+	command = "right"
   if wmote.state['buttons'] & cwiid.BTN_1:
 	#elevate
-	print "raise it"
+	command = "up"
   if wmote.state['buttons'] & cwiid.BTN_2:
 	#lower
-	print "drop it low"
-
+	command = "down"
   time.sleep(0.1)
+  return command
+
 
 def main():
   wiimote = makeConnection()
