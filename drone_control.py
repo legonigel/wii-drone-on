@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-from pygame import *
-import pygame
 import libardrone
 import threading
 
@@ -29,11 +27,6 @@ class DroneController(threading.Thread):
 		self._stopevent.set( )
 
 	def run(self):
-		"""We call pygame (to use controler)"""
-		pygame.init()
-		clock = pygame.time.Clock()
-		screen = pygame.display.set_mode((640, 400))
-
 		"""Launch drone class"""
 		self.drone = libardrone.ARDrone(True)
 
