@@ -12,7 +12,7 @@ def makeConnection():
   print "you be connected"
   return wm
 
-def accelerationDir(wm):
+def determine(wm):
   #print "x: " + str(float((wm.state['acc'][0]-125))/30)
   #print "y: " + str(float((wm.state['acc'][1]-125))/30)
   directions = "LR " + str(float((wm.state['acc'][0]-125))/30) + " FB " + str(float((wm.state['acc'][1]-125))/30)
@@ -23,7 +23,7 @@ def main():
   wiimote = makeConnection()
   while True:
     wiimote.led = (wiimote.state['led'] + 1) % 16
-    print accelerationDir(wiimote)
+    print determine(wiimote)
 
 if __name__ == "__main__":
   main()
