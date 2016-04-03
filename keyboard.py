@@ -19,8 +19,6 @@ class InputKeyboard(threading.Thread):
 
 		running = True
 
-		self.current_command = ""
-
 		while running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -81,6 +79,7 @@ class InputKeyboard(threading.Thread):
 					elif event.key == pygame.K_0:
 						self.current_command = "1.0"
 					print "cur_cmd: {}".format(self.current_command)
+			clock.tick(1000)
 
 	def makeConnection(self):
 		self.start()
