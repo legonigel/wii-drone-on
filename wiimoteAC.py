@@ -12,7 +12,7 @@ def makeConnection():
   print "you be connected"
   return wm
 
-def accelerationDir(wiimote):
+def accelerationDir(wm):
   print((wm.state['acc'][1]-125))
   time.sleep(0.1)
 
