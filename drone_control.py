@@ -17,7 +17,7 @@ class DroneController(threading.Thread):
 
 	previous_cmds = []
 
-	prev_cmd_len = 50
+	prev_cmd_len = 5
 
 	def __init__(self, nom = ''):
 		threading.Thread.__init__(self)
@@ -68,16 +68,16 @@ class DroneController(threading.Thread):
 		va_cnt = 0
 		for cmd in self.previous_cmds:
 			if cmd['right'] or cmd['left']:
-				lr = cmd['right'] - cmd['left']
+				lr += cmd['right'] - cmd['left']
 				lr_cnt += 1
 			if cmd['back'] or cmd['forward']:
-				fb = cmd['back'] - cmd['forward']
+				fb += cmd['back'] - cmd['forward']
 				fb_cnt += 1
 			if cmd['up'] or cmd['down']:
-				vv = cmd['up'] - cmd['down']
+				vv += cmd['up'] - cmd['down']
 				vv_cnt += 1
 			if cmd['t_right'] or cmd['t_left']:
-				va = cmd['t_right'] - cmd['t_left']
+				va += cmd['t_right'] - cmd['t_left']
 				va_cnt += 1
 		if lr_cnt:
 			lr = lr * 1.0/ lr_cnt
