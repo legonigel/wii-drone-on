@@ -29,7 +29,7 @@ def main():
 	wiimote = myInputAC.makeConnection()
 	while True:
 		wiimote.led = (wiimote.state['led'] + 1) % 16
-		print myInputAC.determine(wiimote)
+		print myInputAC.determine()
 
 if __name__ == "__main__":
 	main()
