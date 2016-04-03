@@ -21,7 +21,6 @@ class InputWiimoteAC(object):
 		#print "x: " + str(float((wm.state['acc'][0]-125))/30)
 		#print "y: " + str(float((wm.state['acc'][1]-125))/30)
 		directions = "lr " + str(float((self.wm.state['acc'][0]-125))/30) + " fb " + str(float((self.wm.state['acc'][1]-125))/30)
-		time.sleep(0.1)
 		return directions
 
 def main():
