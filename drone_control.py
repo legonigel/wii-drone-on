@@ -68,10 +68,10 @@ class DroneController(threading.Thread):
 		va_cnt = 0
 		for cmd in self.previous_cmds:
 			if cmd['right'] or cmd['left']:
-				lr += cmd['right'] - cmd['left']
+				lr += cmd['left'] - cmd['right']
 				lr_cnt += 1
 			if cmd['back'] or cmd['forward']:
-				fb += cmd['back'] - cmd['forward']
+				fb += cmd['forward'] - cmd['back']
 				fb_cnt += 1
 			if cmd['up'] or cmd['down']:
 				vv += cmd['up'] - cmd['down']
