@@ -28,6 +28,8 @@ class InputBalanceBoard(object):
 
 	def determine(self):
 		command = ""
+		if not self.wiiboard:
+			return command
 		self.wiiboard.request_status()
 
 		readings = self.wiiboard.state['balance']
