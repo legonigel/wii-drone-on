@@ -9684,7 +9684,7 @@ blockquote.pull-right {
     border-right: 5px solid #eee;
     border-left: 0
 }
-.pull-right {
+.pull-right a {
 	color: #669933;
 }
 .blockquote-reverse .small:before,
