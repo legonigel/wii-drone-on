@@ -2,27 +2,23 @@
 # Python AR.Drone control
 # Copyright (C) 2016 LegoNigel <legonigel@gmail.com>
 
-from pygame import *
-import pygame
 import libardrone
 from drone_control import DroneController
 from video import Video
 from wiimote import InputWiimote
+from keyboard import InputKeyboard
 
 import signal
 import sys
 
 def main():
 	"""Main program"""
-	pygame.init()
-	clock = pygame.time.Clock()
-	screen = pygame.display.set_mode((640,400))
-
 	controller = DroneController()
 	controller.start()
 
 	input_sources = []
 	input_sources.append(InputWiimote())
+	input_sources.append(InputKeyboar())
 
 	for source in input_sources:
 		if hasattr(source, "makeConnection"):
@@ -45,6 +41,9 @@ def main():
 
 	except (KeyboardInterrupt, SystemExit):
 		pass
+	for source in input_sources:
+		if hasattr(source, "stop"):
+			source.stop()
 	controller.do_command("reset")
 	controller.do_command("halt")
 	print "Done!"
