@@ -8,6 +8,7 @@ from video import Video
 from wiimote import InputWiimote
 from keyboard import InputKeyboard
 
+from time import sleep
 import signal
 import sys
 
@@ -17,7 +18,7 @@ def main():
 	controller.start()
 
 	input_sources = []
-	input_sources.append(InputWiimote())
+	#input_sources.append(InputWiimote())
 	input_sources.append(InputKeyboard("Keyboard"))
 
 	for source in input_sources:
@@ -33,9 +34,13 @@ def main():
 	running = True
 	try:
 		while running:
+			print ".",
 			for source in input_sources:
 				command = source.determine()
+				if command == 'reset':
+					running = False
 				if command:
+					print "doing {}".format(command)
 					controller.do_command(command)
 			sleep(0.01) #sleep 10 ms
 
