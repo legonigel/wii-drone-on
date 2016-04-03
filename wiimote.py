@@ -13,7 +13,7 @@ def makeConnection():
   return wm
 
 def determine(wmote):
-  String command = ""
+  command = ""
   if wmote.state['buttons'] & cwiid.BTN_PLUS:
     #takeoff
     command = "takeoff"
