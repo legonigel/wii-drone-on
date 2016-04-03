@@ -13,16 +13,7 @@ def makeConnection():
   return wm
 
 def accelerationDir(wiimote):
-  ax = 0
-  ay = 0
-  az = 0
-  messages = wiimote.get_mesg()
-  for mesg in messages:
-    if mesg[0] == cwiid.MESG_ACC:
-        ax = (((mesg[1][cwiid.X])-120)/2)
-        ay = (((mesg[1][cwiid.Y])-120)/2)
-        az = (((mesg[1][cwiid.Z])-120)/2)
-        print "ax " + ax + "ay " + ay + "az " + az
+  print((wm.state['acc'][1]-125))
   time.sleep(0.1)
 
 def main():
