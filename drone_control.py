@@ -4,8 +4,8 @@ from pygame import *
 import pygame
 import libardrone
 import threading
-import time
 
+from time import sleep
 import Queue
 import signal
 import sys
@@ -129,6 +129,8 @@ class DroneController(threading.Thread):
 
 		if any(s in command_string for s in ['kill','reset']):
 			self.event_queue.put((self.drone.reset,()))
+		elif any(s in command_string for s in ['halt']):
+			self.event_queue.put((self.drone.halt,()))
 		elif any(s in command_string for s in ['forward','fwrd']):
 			#move forward
 			self.add_move(forward = number)
