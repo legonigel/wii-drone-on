@@ -52,7 +52,7 @@ def main():
   wiimote = makeConnection()
   while True:
     wiimote.led = (wiimote.state['led'] + 1) % 16
-    determine(wiimote)
+    print determine(wiimote)
 
 if __name__ == "__main__":
   main()
