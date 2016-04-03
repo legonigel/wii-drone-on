@@ -30,7 +30,7 @@ class InputBalanceBoard(object):
 
 		weight = (calcweight(readings, self.named_cal)/100.0)
 
-		x_bal, y_bal = get_balance(readings, self.calibrations)
+		x_bal, y_bal = get_balance(readings, self.named_cal)
 		command = "lr " + str(x_bal) + " fb " + str(y_bal)
 		return command
 
@@ -42,7 +42,7 @@ def get_balance(readings, calibrations):
 	try:
 		x_bal = (float(right_top + right_bottom)) / (float(left_top + left_bottom))
 		if x_bal > 1:
-			x_bal = ((float(left_top + left_bottom)) / (float(right_top + right_top)) * -1.0) + 1.0
+			x_bal = ((float(left_top + left_bottom)) / (float(right_top + right_bottom)) * -1.0) + 1.0
 		else:
 			x_bal = x_bal - 1.0
 		y_bal = (float(left_bottom + right_bottom)) / (float(left_top + right_top))
@@ -61,9 +61,9 @@ def gsc(readings, pos, calibrations):
 	calibration = calibrations[pos]
 
 	if reading < calibration[1]:
-		weight += 1700 * (reading - calibration[0]) / (calibration[1] - calibration[0])
+		weight = 1700 * (reading - calibration[0]) / (calibration[1] - calibration[0])
 	else:
-		weight += 1700 * (reading - calibration[0]) / (calibration[2] - calibration[1]) + 1700
+		weight = 1700 * (reading - calibration[0]) / (calibration[2] - calibration[1]) + 1700
 	return weight
 
 
