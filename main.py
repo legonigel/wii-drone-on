@@ -18,7 +18,7 @@ def main():
 
 	input_sources = []
 	input_sources.append(InputWiimote())
-	input_sources.append(InputKeyboar())
+	input_sources.append(InputKeyboard("Keyboard"))
 
 	for source in input_sources:
 		if hasattr(source, "makeConnection"):
