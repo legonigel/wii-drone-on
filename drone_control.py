@@ -41,7 +41,8 @@ class DroneController(threading.Thread):
 		running = True
 		while running:
 			try:
-				event, params = self.event_queue.get(True, 0.1)
+				event, params = self.event_queue.get(True, 1)
+				print "got event"
 				event(*params)
 			except Queue.Empty:
 				self.drone.hover()
@@ -54,11 +55,9 @@ class DroneController(threading.Thread):
 		quit()
 
 	def add_move(self, left=0, right=0, forward=0, back=0, up=0, down=0, t_left=0, t_right=0):
-
-		if len(previous_cmds) == self.prev_cmd_len:
-			previous_cmds.pop(0)
-		previous_cmds.append({'left':left,'right':right,'forward':forward,'back':back,'up':up,'down':down,'t_left':t_left,'t_right':t_right})
-
+		if len(self.previous_cmds) == self.prev_cmd_len:
+			self.previous_cmds.pop(0)
+		self.previous_cmds.append({'left':left,'right':right,'forward':forward,'back':back,'up':up,'down':down,'t_left':t_left,'t_right':t_right})
 		lr = 0
 		lr_cnt = 0
 		fb = 0
@@ -67,24 +66,27 @@ class DroneController(threading.Thread):
 		vv_cnt = 0
 		va = 0
 		va_cnt = 0
-		for cmd in previous_cmds:
-			if cmd.right or cmd.left:
-				lr = cmd.right - cmd.left
+		for cmd in self.previous_cmds:
+			if cmd['right'] or cmd['left']:
+				lr = cmd['right'] - cmd['left']
 				lr_cnt += 1
-			if cmd.back or cmd.forward:
-				fb = cmd.back - cmd.forward
+			if cmd['back'] or cmd['forward']:
+				fb = cmd['back'] - cmd['forward']
 				fb_cnt += 1
-			if cmd.up or cmd.down:
-				vv = cmd.up - cmd.down
+			if cmd['up'] or cmd['down']:
+				vv = cmd['up'] - cmd['down']
 				vv_cnt += 1
-			if cmd.t_right or cmd.t_left:
-				va = cmd.t_right - cmd.t_left
+			if cmd['t_right'] or cmd['t_left']:
+				va = cmd['t_right'] - cmd['t_left']
 				va_cnt += 1
-
-		lr = lr / lr_cnt
-		fb = fb / fb_cnt
-		vv = vv / vv_cnt
-		va = va / va_cnt
+		if lr_cnt:
+			lr = lr * 1.0/ lr_cnt
+		if fb_cnt:
+			fb = fb * 1.0/ fb_cnt
+		if vv_cnt:
+			vv = vv * 1.0/ vv_cnt
+		if va_cnt:
+			va = va * 1.0/ va_cnt
 
 		self.event_queue.put((self.drone.move_4d, (lr,fb,vv,va)))
 
@@ -120,9 +122,9 @@ class DroneController(threading.Thread):
 			fb = 0
 			for num, item in enumerate(splits):
 				if item == 'lr':
-					lr = splits[num + 1]
+					lr = float(splits[num + 1])
 				elif item == 'fb':
-					fb = splits[num + 1]
+					fb = float(splits[num + 1])
 			self.add_move(forward = fb, left = lr)
 			return True
 		if len(command_string.split(' ')) > 3:
@@ -138,11 +140,14 @@ class DroneController(threading.Thread):
 				return False
 
 
+		print "speed is {}".format(number)
+		print type(number)
 		if any(s in command_string for s in ['forward','fwrd']):
 			#move forward
 			self.add_move(forward = number)
 		elif any(s in command_string for s in ['backward','bckwd','back']):
 			#move back
+			print "doing back"
 			self.add_move(back = number)
 		elif 'turn' in command_string:
 			#turn commands
