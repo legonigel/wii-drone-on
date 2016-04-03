@@ -47,7 +47,7 @@ class controle(threading.Thread):
 		clock = pygame.time.Clock()
 		running = True
 
-		screen = pygame.display.set_mode((640, 400))
+		screen = pygame.display.set_mode((640, 360))
 
 		"""Set up and init joystick"""
 		#j=joystick.Joystick(0)
