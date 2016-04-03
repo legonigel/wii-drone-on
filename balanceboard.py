@@ -1,32 +1,27 @@
 #! /usr/bin/python
 
 import cwiid
-import time
+from time import sleep
 
 class InputBalanceBoard(Object):
     def makeConnection(self):
       print "Press sync on da board yo"
       wiiboard = cwiid.Wiimote()
       wiiboard.led = 1
-      wiiboard.enable(cwiid.FLAG_MOTIONPLUS)
-      wiimote.rpt_mode = cwiid.RPT_BALANCE | cwiid.RPT_BTN
+      wiiboard.rpt_mode = cwiid.RPT_BALANCE | cwiid.RPT_BTN
+      wiiboard.request_status()
+      sleep(1)
+      print wiiboard.state['ext_type']
       print "you be connected"
-      self.wiimote = wiimote
-      return wiimote
+      self.wiiboard = wiiboard
+      return wiiboard
+
+
 
     def determine(self):
       command = ""
-      if wiimote.state['ext_type'] != cwiid.EXT_BALANCE:
-          print 'This program only supports the Wii Balance Board'
-	      wiimote.close()
-	      sys.exit(1)
-	balance_calibration = wiimote.get_balance_cal()
-	named_calibration = { 'right_top': balance_calibration[0],
-                          'right_bottom': balance_calibration[1],
-                          'left_top': balance_calibration[2],
-                          'left_bottom': balance_calibration[3],
-                        }
-      time.sleep(0.1)
+
+      sleep(0.1)
       return command
 
 
